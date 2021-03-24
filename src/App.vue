@@ -12,7 +12,8 @@
       </div>
       <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
         <div class="location-box">
-          <div class="location">
+           <div class="location" v-if="city !== ''">{{ this.capitalizeFirstLetter(city)}}, {{ weather.sys.country }}</div>
+          <div class="location" v-else>
             {{ weather.name }}, {{ weather.sys.country }}
           </div>
           <div class="date">{{ dateBuilder() }}  
@@ -36,6 +37,7 @@ export default {
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "",
       weather: {},
+       city: '',
     };
   },
     mounted:function() {
@@ -74,6 +76,7 @@ export default {
     },
     setResults(results) {
       this.weather = results;
+      
     },
     dateBuilder() {
       let d = new Date();
@@ -106,6 +109,9 @@ export default {
       let year = d.getFullYear();
       return `${day} ${date} ${month} ${year}`;
     },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
   },
 };
 </script>
